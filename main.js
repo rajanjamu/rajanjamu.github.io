@@ -42,6 +42,29 @@ var leaveController = (function() {
       return item;
     },
 
+    updateItem: function(status, id, action) {
+      var ids, index, newID;
+
+      // Find index of item
+      ids = data[status].map(function(curr) {
+        return curr.id;
+      });
+      index = ids.indexOf(id);
+      console.log('index' + index);
+
+      // Add to approve or reject list
+      if (data[action].length > 0) {
+        newID = data[action].length + 1;
+      } else {
+        newID = 1;
+      }
+      data[status][index].id = newID;
+      data[action].push(data[status][index]);
+
+      // Remove from pending list
+      data[status].splice(index, 1);
+    },
+
     testing: function() {
       return data;
     }
@@ -60,7 +83,10 @@ var UIController = (function() {
     inputButton: '.add_btn',
     pndContainer: '.pending_list',
     aprContainer: '.approved_list',
-    rejContainer: '.rejected_list'
+    rejContainer: '.rejected_list',
+    aprButton: '.apr_btn',
+    rejButton: '.rej_btn',
+    container: '.container'
   }
 
   return {
@@ -104,7 +130,7 @@ var UIController = (function() {
         case 'rej': element = DOMstrings.rejContainer; break;
       }
 
-      html = '<div class="" id="%status%-%id%"><p>%name%<br>From: %fromDate%<br>To: %toDate%<br>Type: %type%<br>Reason: %reason%<br></p></div>';
+      html = '<div class="" id="%status%-%id%"><p>%name%<br>From: %fromDate%<br>To: %toDate%<br>Type: %type%<br>Reason: %reason%<br></p><button type="button" class="apr_btn" name="apr_btn">Apr</button><button type="button" class="rej_btn" name="rej_btn">Rej</button></div>';
       newHtml = html.replace('%status%', status);
       newHtml = newHtml.replace('%id%', newItem.id);
       newHtml = newHtml.replace('%name%', newItem.name);
@@ -127,7 +153,6 @@ var appController = (function() {
 
     // 2. Update data structure
     var newItem = leaveController.addItem(input, 'pnd');
-    console.log(newItem);
 
     // 3. Update UI
     UIController.addListItem(newItem, 'pnd');
@@ -136,9 +161,24 @@ var appController = (function() {
     UIController.clearFields();
   }
 
+  var ctrlUpdateItem = function(event) {
+    var itemID, splitID, status, ID, action;
+    itemID = event.target.parentNode.id;
+    action = event.target.className.split('_')[0];
+
+    if (itemID) {
+      splitID = itemID.split('-');
+      status = splitID[0];
+      ID = parseInt(splitID[1]);
+
+      leaveController.updateItem(status, ID, action);
+    }
+  }
+
   var setupEventListeners = function() {
     DOM = UIController.getDOMstrings();
     document.querySelector(DOM.inputButton).addEventListener('click', ctrlAddItem);
+    document.querySelector(DOM.container).addEventListener('click', ctrlUpdateItem);
   }
 
   return {
