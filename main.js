@@ -50,7 +50,6 @@ var leaveController = (function() {
         return curr.id;
       });
       index = ids.indexOf(id);
-      console.log('index' + index);
 
       // Add to approve or reject list
       if (data[action].length > 0) {
@@ -63,6 +62,8 @@ var leaveController = (function() {
 
       // Remove from pending list
       data[status].splice(index, 1);
+
+      return data[action][data[action].length-1];
     },
 
     testing: function() {
@@ -140,7 +141,15 @@ var UIController = (function() {
       newHtml = newHtml.replace('%reason%', newItem.reason);
 
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+    },
+
+    updateListItem: function(selectorID, newItem, action) {
+      var el = document.getElementById(selectorID);
+      el.parentNode.removeChild(el);
+
+      this.addListItem(newItem, action);
     }
+
   }
 
 })();
@@ -162,7 +171,7 @@ var appController = (function() {
   }
 
   var ctrlUpdateItem = function(event) {
-    var itemID, splitID, status, ID, action;
+    var itemID, splitID, status, ID, action, newItem;
     itemID = event.target.parentNode.id;
     action = event.target.className.split('_')[0];
 
@@ -171,7 +180,8 @@ var appController = (function() {
       status = splitID[0];
       ID = parseInt(splitID[1]);
 
-      leaveController.updateItem(status, ID, action);
+      newItem = leaveController.updateItem(status, ID, action);
+      UIController.updateListItem(itemID, newItem, action);
     }
   }
 
