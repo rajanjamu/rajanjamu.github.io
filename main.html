@@ -2,11 +2,75 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <title>Leave App</title>
     </head>
 
     <body>
         <h1>Leave Management Application</h1>
+
+        <!-- Input form -->
+        <form class="form-inline" action="" method="">
+          <input type="text" class="add_name" name="name" value="" placeholder="Applicant's Name">
+          <input type="date" class="add_from_date" name="fromDate" value="">
+          <input type="date" class="add_to_date" name="toDate" value="">
+          <select class="add_type" name="leaveType">
+            <option value="sick">Sick</option>
+            <option value="casual">Casual</option>
+            <option value="other">Other</option>
+          </select>
+          <input type="text" class="add_reason" name="reason" value="" placeholder="Reason of Leave">
+          <button type="button" class="add_btn" name="button">Submit</button>
+        </form>
+
+        <!-- Display leave applications -->
+        <div class="">
+          <!-- Pending leave application'S' -->
+          <div class="" style="display: inline-block">
+            <h2>Pending</h2>
+            <!-- Pending leave application -->
+            <div class="">
+              <p>
+                Rajan<br>
+                From: 23 Mar 2020<br>
+                To: 24 Mar 2020<br>
+                Type: Sick<br>
+                Reason: Corona<br>
+              </p>
+            </div>
+          </div>
+
+          <!-- Approved leave application'S' -->
+          <div class="" style="display: inline-block">
+            <h2>Approved</h2>
+            <!-- Approved leave application -->
+            <div class="">
+              <p>
+                Rajan<br>
+                From: 23 Mar 2020<br>
+                To: 24 Mar 2020<br>
+                Type: Sick<br>
+                Reason: Corona<br>
+              </p>
+            </div>
+          </div>
+
+          <!-- Rejected leave application'S' -->
+          <div class="" style="display: inline-block">
+            <h2>Rejected</h2>
+            <!-- Rejected leave application -->
+            <div class="">
+              <p>
+                Rajan<br>
+                From: 23 Mar 2020<br>
+                To: 24 Mar 2020<br>
+                Type: Sick<br>
+                Reason: Corona<br>
+              </p>
+            </div>
+          </div>
+        </div>
+
         <script src="main.js"></script>
     </body>
 </html>
